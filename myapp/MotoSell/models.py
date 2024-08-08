@@ -33,7 +33,7 @@ class Vehicle(models.Model):
         validators=[MaxValueValidator(1500000)]  # Mileage should not exceed 1.5 million
     )
     engine_capacity = models.PositiveIntegerField(
-        validators=[MaxValueValidator(20)]  # Engine capacity should not exceed 20
+        validators=[MaxValueValidator(10000)]  # Engine capacity should not exceed 20
     )
     power = models.PositiveIntegerField(
         validators=[MaxValueValidator(2000)]  # Power should not exceed 2000
