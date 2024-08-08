@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from MotoSell.views import ItemViewSet
+from MotoSell.views import VehicleViewSet
 
 router = DefaultRouter()
-router.register(r'items', ItemViewSet)
+router.register(r'vehicles', VehicleViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
