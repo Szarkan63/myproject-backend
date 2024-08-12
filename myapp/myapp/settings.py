@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'MotoSell',
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
