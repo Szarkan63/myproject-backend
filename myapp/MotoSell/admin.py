@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Vehicle  # Import the Vehicle model
+from .models import Vehicle,User  # Import the Vehicle model
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
     list_display = (

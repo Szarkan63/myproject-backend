@@ -23,10 +23,11 @@ from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'vehicles', VehicleViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/',include(router.urls))
+    path('api/', include(router.urls)),
 ]
-if settings.DEBUG: #Jesli w trybie debugu
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:  # If in debug mode
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
