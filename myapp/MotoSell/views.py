@@ -36,6 +36,8 @@ class LoginView(APIView):
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
             return Response({
-                'token': access_token
-            }, status=status.HTTP_200_OK)
+                'token': access_token,
+                'userName': user.username  # Add a comma here
+            }, status=status.HTTP_200_OK)  # Ensure this line is correctly indented
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
