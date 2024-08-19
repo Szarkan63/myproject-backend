@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'myapp',
 ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

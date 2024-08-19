@@ -27,6 +27,7 @@ router.register(r'vehicles', VehicleViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/users/', include('MotoSell.urls'))
 ]
 
 if settings.DEBUG:  # If in debug mode
