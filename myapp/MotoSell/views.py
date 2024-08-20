@@ -15,9 +15,15 @@ from .serializers import RegisterSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class VehicleViewSet(viewsets.ModelViewSet):
-    queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
     permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        # Sprawdź, czy żądanie dotyczy widoku dla ogłoszeń użytkownika
+        user_id = self.request.query_params.get('user')
+        if user_id is not None:
+            return Vehicle.objects.filter(user_id=user_id)
+        # W przeciwnym razie zwróć wszystkie ogłoszenia
+        return Vehicle.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

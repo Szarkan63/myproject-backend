@@ -22,12 +22,12 @@ from MotoSell.views import VehicleViewSet
 from django.conf.urls.static import static
 
 router = DefaultRouter()
-router.register(r'vehicles', VehicleViewSet)
+router.register(r'vehicles', VehicleViewSet,basename='vehicle')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/users/', include('MotoSell.urls'))
+    path('api/', include(router.urls)),  # Rejestruje wszystkie endpointy dla pojazdów
+    path('api/users/', include('MotoSell.urls'))  # Dodaj swój routing dla użytkowników
 ]
 
 if settings.DEBUG:  # If in debug mode

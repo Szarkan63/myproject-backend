@@ -19,6 +19,18 @@ class VehicleSerializer(serializers.ModelSerializer):
         validated_data['user'] = request.user
         return super().create(validated_data)
 
+    def destroy(self, request, *args, **kwargs):
+        # Pobierz obiekt do usunięcia
+        vehicle = self.get_object()
+
+        # Sprawdź, czy użytkownik jest właścicielem ogłoszenia
+        if vehicle.user != request.user:
+            return Response({"detail": "Nie masz uprawnień do usunięcia tego ogłoszenia."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        # Wywołaj metodę destroy z superklasy
+        return super().destroy(request, *args, **kwargs)
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
