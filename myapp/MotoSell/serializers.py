@@ -6,30 +6,17 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
-        fields = ['title', 'description', 'category', 'brand', 'model', 'year', 'mileage', 'engine_capacity', 'power',
-                  'fuel_type', 'photo', 'user']
+        fields = ['id','title', 'description', 'category', 'brand', 'model', 'year', 'mileage', 'engine_capacity', 'power',
+                  'fuel_type', 'photo', 'user','date_added']
         extra_kwargs = {
             'date_added': {'read_only': True},
             'date_published': {'read_only': True},
         }
-
     def create(self, validated_data):
         # Ensure user is set in the view, not from the client
         request = self.context.get('request')
         validated_data['user'] = request.user
         return super().create(validated_data)
-
-    def destroy(self, request, *args, **kwargs):
-        # Pobierz obiekt do usunięcia
-        vehicle = self.get_object()
-
-        # Sprawdź, czy użytkownik jest właścicielem ogłoszenia
-        if vehicle.user != request.user:
-            return Response({"detail": "Nie masz uprawnień do usunięcia tego ogłoszenia."},
-                            status=status.HTTP_403_FORBIDDEN)
-
-        # Wywołaj metodę destroy z superklasy
-        return super().destroy(request, *args, **kwargs)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

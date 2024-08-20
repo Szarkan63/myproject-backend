@@ -28,6 +28,15 @@ class VehicleViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def delete(self, request, pk, format=None):
+        try:
+            vehicle = Vehicle.objects.get(pk=pk, user=request.user)
+        except Vehicle.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        vehicle.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
