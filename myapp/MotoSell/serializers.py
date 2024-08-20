@@ -6,7 +6,13 @@ from .models import Vehicle
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
-        fields = '__all__'
+        fields = ['title', 'description', 'category', 'brand', 'model', 'year', 'mileage', 'engine_capacity', 'power',
+                  'fuel_type', 'photo']
+        extra_kwargs = {
+            'user': {'read_only': True},  # user is not editable by the user
+            'date_added': {'read_only': True},
+            'date_published': {'read_only': True},
+        }
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

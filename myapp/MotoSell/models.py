@@ -44,5 +44,10 @@ class Vehicle(models.Model):
     date_added = models.DateField(auto_now_add=True)
     date_published = models.DateField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.user = None  # Or set to default user if needed
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.brand} {self.model} ({self.year})"
