@@ -1,4 +1,4 @@
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework.response import Response
 from rest_framework import status, generics
 from django.contrib.auth import authenticate
@@ -12,12 +12,15 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, UserSerializer
+from rest_framework.permissions import IsAuthenticated
 
 class VehicleViewSet(viewsets.ModelViewSet):
-    queryset = Vehicle.objects.all() #Okresla ktore obiekty beda modyfikowane
-    serializer_class = VehicleSerializer  #Mówi jak przekstalcic obiekty modelu na JSON
-    # Wykonac
-    # przeciazyc metode do aktualizacji danych,parametr "partial" na true
+    queryset = Vehicle.objects.all()
+    serializer_class = VehicleSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class RegisterView(APIView):
     def post(self, request):
@@ -32,12 +35,14 @@ class LoginView(APIView):
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
+
         if user:
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
             return Response({
                 'token': access_token,
-                'userName': user.username  # Add a comma here
-            }, status=status.HTTP_200_OK)  # Ensure this line is correctly indented
+                'userName': user.username,
+                'id': user.id  # Ensure ID is included and is an integer
+            }, status=status.HTTP_200_OK)
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
